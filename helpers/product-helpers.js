@@ -3,6 +3,7 @@ var collection=require('../config/collections')
 var promise=require('promise');
 const { resolve, reject } = require('promise');
 const { ObjectID } = require('mongodb');
+const { response } = require('express');
 var objectId=require('mongodb').ObjectID;
 
 module.exports={
@@ -29,5 +30,30 @@ module.exports={
             })
         })
 
-    }
-}
+    },
+    getProductDetails:(proid)=>{
+        return new promise((resolve,reject)=>{
+            db.get().collection(collection.PRODUCT_COLLECTIONS).findOne({_id:objectId(proid)}).then((product)=>{
+                resolve(product);
+            })
+        })
+
+    },
+    updateProduct:(proid,productDetails)=>{
+        return new promise((resolve,reject)=>{
+             
+            db.get().collection(collection.PRODUCT_COLLECTIONS).updateOne({_id:objectId(proid)},{
+                $set:{
+                    name:productDetails.name,
+                    Catagory:productDetails.Catagory,
+                    Prize:productDetails.Prize,
+                    Discription:productDetails.Discription
+
+                }
+            }).then((response)=>{
+                resolve();
+            })
+
+        })
+
+    }}
