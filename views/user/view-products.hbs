@@ -8,8 +8,10 @@
                         <img class="card-img-top" src="/product-images/{{this._id}}.jpg" style="height: 20rem;" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{this.name}}</h5>
+                             <p class="card-text">Rs.{{this.Prize}}</p>
                             <p class="card-text">{{this.Discription}}</p>
-                            <a href="/add-to-cart/{{this._id}}" class="btn btn-primary">add to cart</a>
+                        
+                            <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add to cart</button>
                         </div>
                     </div>
                 </div>
@@ -18,4 +20,7 @@
         </div>
 
     </section>
+    <script>
+        
+    </script>
 

@@ -89,12 +89,25 @@ router.get('/cart',verifyingLogin,async(req,res)=>{
   res.render('user/cart',{products,user:req.session.user});
 })
 
-router.get('/add-to-cart/:id',verifyingLogin,(req,res)=>{
+router.get('/add-to-cart/:id',(req,res)=>{
+  console.log("api call");
 
   userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
-    res.redirect('/');
+    res.json({status:true})
   })
 
+})
+
+router.post('/change-product-quantity',(req,res,next)=>{
+  console.log(req.body);
+  userHelpers.changeProductQunatity(req.body).then((response)=>{
+res.json(response)
+  })
+}) 
+
+router.get('/place-order',verifyingLogin, async(req,res)=>{
+  let total=await userHelpers.getTotalAmount(req.session.user._id)
+  res.render('user/place-order',{total})
 })
 
 
