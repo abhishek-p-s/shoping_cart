@@ -16,14 +16,14 @@
                 <tr>
                    
 
-                    <td><img src="/product-images/{{this.product._id}}.jpg" alt="product image"></td>
+                    <td><img src="/product-images/{{this.product._id}}.jpg" alt="product image" style="height: 5rem; width:5rem"></td>
                     <td>{{this.product.name}}</td>
                     <td>{{this.product.Prize}}</td>
                     
                     <td>
-                        <button class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                        <button class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
                         <span id="{{this.product._id}}">{{this.quantity}}</span>
-                        <button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                        <button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
                     </td>
                     <td>
                         <a href="" class="btn btn-danger">Remove</a>
@@ -35,19 +35,20 @@
         </table>
         <hr>
         <div class="float-right pr-5">
-        <h5 class="float-left mr-5 ">Total:Rs.100000</h5>
+        <h5 class="float-left mr-5 ">Total:Rs.<span id="total">{{totalValue}}</span></h5>
         <a href="/place-order" class="btn btn-success mt-3" style="width: 100%;"><b>Place order</b></a>
   </div>
   </div>
 </section>
 
 <script>
-    function changeQuantity(cartid,proid,count){
+    function changeQuantity(cartid,proid,userid,count){
         let quantity=parseInt(document.getElementById(proid).innerHTML)
         count=parseInt(count)
         $.ajax({
             url:'/change-product-quantity',
             data:{
+                user:userid,
                 cart:cartid,
                 product:proid,
                 count:count,
@@ -61,6 +62,7 @@
                    location.reload()
                }else{
                    document.getElementById(proid).innerHTML=quantity+count 
+                   document.getElementById('total').innerHTML=response.total
                }
             }
         })
